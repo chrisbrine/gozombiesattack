@@ -48,10 +48,10 @@ func (g *Game) InitSettings() {
 			damageHerbMin: 1,
 			herbTimerMin: 40,
 			herbTimerMax: 100,
-			healingHerbPercent: 70,
-			damageHerbPercent: 0,
+			healingHerbPercent: 65,
+			damageHerbPercent: 2,
 			zombieDamageHerbPercent: 30,
-			zombieHealHerbPercent: 0,
+			zombieHealHerbPercent: 3,
 			zombiesIncRate: 1000,
 			zombiesMax: 20,
 			zombieHealthIncRate: 3000, // Set to 0 to prevent health increase
