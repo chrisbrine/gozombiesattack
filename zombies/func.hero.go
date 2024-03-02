@@ -60,11 +60,13 @@ func (g *Game) HeroWeapon2() {
 
 // Move Hero
 
-func (g *Game) MoveHero(y int) {
-	newY := g.hero.position.y + y
-	if g.InFrame(Point{g.hero.position.x, newY}, g.hero.drawing.height, g.hero.drawing.width) {
+func (g *Game) MoveHero(point Point) {
+	newX := g.hero.position.x + point.x
+	newY := g.hero.position.y + point.y
+	if g.InFrame(Point{newX, newY}, g.hero.drawing.height, g.hero.drawing.width + 6) {
 		g.UnRenderHero()
 		g.hero.position.y = newY
+		g.hero.position.x = newX
 		g.RenderHero()
 	}
 }

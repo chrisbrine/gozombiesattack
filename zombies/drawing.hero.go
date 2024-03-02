@@ -1,12 +1,12 @@
 package zombies
 
 func (h *Hero) Draw() Drawing {
-	weaponMark := CreateMark('|', ColorGrey)
+	weaponMark := CreateMark('∏', ColorGrey)
 	weaponMark.AddItem(true, Point{x: 1, y: 0})
 	marks := [][]Mark{
 		{
 			CreateMark(' ', ColorBlack),
-			CreateMark('O', ColorWhite),
+			CreateMark('ੳ', ColorWhite),
 		},
 		{
 			CreateMark(' ', ColorBlack),
@@ -14,7 +14,7 @@ func (h *Hero) Draw() Drawing {
 		},
 		{
 			CreateMark(' ', ColorBlack),
-			CreateMark('|', ColorGrey),
+			CreateMark('∐', ColorGrey),
 		},
 		{
 			CreateMark('/', ColorWhite),

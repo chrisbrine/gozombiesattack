@@ -9,7 +9,8 @@ func (g *Game) Rand(num int) int {
 }
 
 func (g *Game) RandFloat(num float64) float64 {
-	return rand.Float64() * num
+	result := rand.Float64() * num
+	return result
 }
 
 // Initialize Settings
@@ -38,22 +39,27 @@ func (g *Game) InitSettings() {
 			zombieMinSpeed: 1,
 		},
 		options: Options{
-			herbs: 2,
+			herbs: 1,
 			herbsIncRate: 2000,
+			herbsMax: 10,
 			healingHerbMax: 2,
 			healingHerbMin: 1,
 			damageHerbMax: 2,
 			damageHerbMin: 1,
-			herbTimerMin: 10,
-			herbTimerMax: 50,
-			healingHerbPercent: 50,
+			herbTimerMin: 40,
+			herbTimerMax: 100,
+			healingHerbPercent: 70,
 			damageHerbPercent: 0,
-			zombieDamageHerbPercent: 50,
+			zombieDamageHerbPercent: 30,
 			zombieHealHerbPercent: 0,
-			zombiesIncRate: 800,
-			zombieHealthIncRate: 4000,
-			zombieSpeedIncRate: 5000,
-			zombieDamageIncRate: 4000, // not working, all damage is 1
+			zombiesIncRate: 1000,
+			zombiesMax: 20,
+			zombieHealthIncRate: 3000, // Set to 0 to prevent health increase
+			zombieHealthMaxRate: 2,
+			zombieSpeedIncRate: 7500,
+			zombieSpeedMaxRate: 3,
+			zombieDamageIncRate: 4000,
+			zombieDamageMaxRate: 1,
 			zombieKillPoints: 100,
 			zombieShootPoints: 10,
 			zombieBiteTimerMin: 10,

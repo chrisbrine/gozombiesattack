@@ -75,12 +75,20 @@ func (g *Game) MoveBullets() {
 		if g.InFrame(Point{newX, g.bullets[i].position.y}, g.bullets[i].drawing.width, g.bullets[i].drawing.height) {
 			if g.ZombieAt(Point{newX, g.bullets[i].position.y}) {
 				g.hero.score += g.settings.options.zombieShootPoints
-				g.ZombieHurtAt(Point{newX, g.bullets[i].position.y}, g.bullets[i].damage)
+				damage := g.bullets[i].damage
+				if g.bullets[i].damage < 1 {
+					damage = 1
+				}
+				g.ZombieHurtAt(Point{newX, g.bullets[i].position.y}, damage)
 				g.KillBullet(i)
 				i--
 			} else if g.ZombieAt(Point{g.bullets[i].position.x, g.bullets[i].position.y}) {
 				g.hero.score += g.settings.options.zombieShootPoints
-				g.ZombieHurtAt(Point{g.bullets[i].position.x, g.bullets[i].position.y}, g.bullets[i].damage)
+				damage := g.bullets[i].damage
+				if damage < 1 {
+					damage = 1
+				}
+				g.ZombieHurtAt(Point{g.bullets[i].position.x, g.bullets[i].position.y}, damage)
 				g.KillBullet(i)
 				i--
 			} else if g.HerbAt(Point{newX, g.bullets[i].position.y}) {

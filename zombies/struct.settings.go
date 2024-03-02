@@ -47,6 +47,8 @@ func (s *Start) String() string {
 type Options struct {
 	// Starting herbs on screen
 	herbs 									int
+	// Max herbs on screen
+	herbsMax 								int
 	// Herb heals this much if healing herb max
 	healingHerbMax 					int
 	// Herb heals this much if healing herb min
@@ -71,12 +73,20 @@ type Options struct {
 	zombieHealHerbPercent 	int
 	// Increase zombies every x points
 	zombiesIncRate 					int
+	// Max zombies on screen
+	zombiesMax 							int
 	// Increase zombie health every x points
 	zombieHealthIncRate 		int
+	// Max health inc rate for zombies
+	zombieHealthMaxRate 		int
 	// Increase zombie speed every x points
 	zombieSpeedIncRate 			float64
+	// Max speed inc rate
+	zombieSpeedMaxRate 			float64
 	// Increase zombie damage every x points
 	zombieDamageIncRate 		int
+	// Max damage inc rate for zombies
+	zombieDamageMaxRate 		int
 	// Bite timer min
 	zombieBiteTimerMin 			int
 	// Bite timer max

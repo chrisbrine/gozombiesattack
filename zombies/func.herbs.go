@@ -96,8 +96,8 @@ func (g *Game) RandomHerbType(x, y int) Herb {
 
 // Get Random herb point
 func (g *Game) RandomHerbPoint() Point {
-	minXPoint := g.hero.position.x + g.hero.drawing.width + 3
-	maxXPoint := g.frame.position.x + g.frame.width - 3
+	minXPoint := g.frame.position.x + g.hero.drawing.width + 4
+	maxXPoint := g.frame.position.x + g.frame.width - 8
 	minYPoint := g.frame.position.y + 3
 	maxYPoint := g.frame.position.y + g.frame.height - 3
 	return Point{
@@ -116,7 +116,11 @@ func (g *Game) CreateRandomHerb() {
 
 // Check how many herbs there should be
 func (g *Game) NeededHerbCount() int {
-	return g.settings.options.herbs + g.CalculateIncRateByScore(g.settings.options.herbsIncRate)
+	count := g.settings.options.herbs + g.CalculateIncRateByScore(g.settings.options.herbsIncRate)
+	if count > g.settings.options.herbsMax {
+		count = g.settings.options.herbsMax
+	}
+	return count
 }
 
 // Refresh Herbs as needed

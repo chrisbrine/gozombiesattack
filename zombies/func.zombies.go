@@ -11,6 +11,9 @@ func (g *Game) InitZombies() {
 // Check for more zombies to create
 func (g *Game) CheckZombies() {
 	needZombieCount := g.settings.start.zombies + g.CalculateIncRateByScore(g.settings.options.zombiesIncRate)
+	if needZombieCount > g.settings.options.zombiesMax {
+		needZombieCount = g.settings.options.zombiesMax
+	}
 	if len(g.zombies) < g.settings.start.zombies {
 		g.CreateZombie()
 	}
@@ -42,15 +45,26 @@ func (z *Zombie) At(p Point) bool {
 func (g *Game) NewZombie() Zombie {
 	zombie := Zombie{}
 	min1 := g.settings.start.zombieMinHealth
-	max1 := g.settings.start.zombieMaxHealth + g.CalculateIncRateByScore(g.settings.options.zombieHealthIncRate)
+	calcMax1 := g.CalculateIncRateByScore(g.settings.options.zombieHealthIncRate)
+	if calcMax1 > g.settings.options.zombieHealthMaxRate {
+		calcMax1 = g.settings.options.zombieHealthMaxRate
+	}
+	max1 := g.settings.start.zombieMaxHealth + calcMax1
 	min2 := g.settings.start.zombieMinSpeed
-	max2 := g.settings.start.zombieMaxSpeed + g.CalculateIncRateByScoreFloat(g.settings.options.zombieSpeedIncRate)
-	// min3 := g.settings.start.zombieMinDamage
-	// max3 := g.settings.start.zombieMaxDamage + g.CalculateIncRateByScore(g.settings.options.zombieDamageIncRate)
+	calcMax2 := g.CalculateIncRateByScoreFloat(g.settings.options.zombieSpeedIncRate)
+	if calcMax2 > g.settings.options.zombieSpeedMaxRate {
+		calcMax2 = g.settings.options.zombieSpeedMaxRate
+	}
+	max2 := g.settings.start.zombieMaxSpeed + calcMax2
+	calcMax3 := g.CalculateIncRateByScore(g.settings.options.zombieDamageIncRate)
+	if calcMax3 > g.settings.options.zombieDamageMaxRate {
+		calcMax3 = g.settings.options.zombieDamageMaxRate
+	}
+	min3 := g.settings.start.zombieMinDamage
+	max3 := g.settings.start.zombieMaxDamage + calcMax3
 	zombie.health = g.RandomBetween(min1, max1)
 	zombie.speed = g.RandomFloatBetween(min2, max2)
-	// zombie.damage = g.RandomBetween(min3, max3)
-	zombie.damage = 1
+	zombie.damage = g.RandomBetween(min3, max3)
 	zombie.drawing = zombie.Draw()
 	zombie.maxBiteTimer = g.RandomBetween(g.settings.options.zombieBiteTimerMin, g.settings.options.zombieBiteTimerMax)
 	zombie.biteTimer = zombie.maxBiteTimer
@@ -83,13 +97,21 @@ func (g *Game) CheckZombieHeightPoints(i int, z Zombie, newX int) bool {
 	for newY := z.position.y; newY < z.position.y+z.drawing.height; newY++ {
 		if g.BulletAt(Point{newX, newY}) || g.BulletAt(Point(Point{z.position.x, newY})) {
 			idx, bullet := g.GetBulletAtPoint(Point{newX, newY})
-			g.ZombieHurt(i, bullet.damage)
+			damage := bullet.damage
+			if damage < 1 {
+				damage = 1
+			}
+			g.ZombieHurt(i, damage)
 			g.KillBullet(idx)
 			result = true
 		} else if g.HeroAt(Point{newX, newY}) && !alreadyHurtHero {
 			if z.biteTimer >= z.maxBiteTimer {
 				alreadyHurtHero = true
-				g.HeroHurt(z.damage)
+				damage := z.damage
+				if damage < 1 {
+					damage = 1
+				}
+				g.HeroHurt(damage)
 				g.zombies[i].biteTimer = 0
 			} else {
 				g.zombies[i].biteTimer++
@@ -141,8 +163,11 @@ func (g *Game) ZombieEatsHerb(i int, p Point) {
 			}
 			if h.zombieHeal > 0 {
 				g.ZombieHeal(i, h.zombieHeal)
+				if g.zombies[i].health > g.settings.options.zombieHealthMaxRate {
+					g.zombies[i].health = g.settings.options.zombieHealthMaxRate
+				}
 			}
-			g.herbs = append(g.herbs[:i], g.herbs[i+1:]...)
+			g.KillHerb(i)
 		}
 	}
 }

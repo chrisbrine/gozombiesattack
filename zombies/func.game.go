@@ -53,7 +53,7 @@ func InDimensions(p Point, tl Point, br Point) bool {
 }
 
 func (g *Game) RandomBetween(min int, max int) int {
-	if min == max {
+	if min >= max {
 		return min
 	}
 	randomNum := g.Rand(max - min)
@@ -61,7 +61,7 @@ func (g *Game) RandomBetween(min int, max int) int {
 }
 
 func (g *Game) RandomFloatBetween(min float64, max float64) float64 {
-	if min == max {
+	if min >= max {
 		return min
 	}
 	randomNum := g.RandFloat(max - min)
@@ -69,14 +69,14 @@ func (g *Game) RandomFloatBetween(min float64, max float64) float64 {
 }
 
 func CalculateIncRate(option int, incRate int) int {
-	if incRate == 0 || option == 0 {
+	if incRate <= 0 || option <= 0 {
 		return 0
 	}
 	return option / incRate
 }
 
 func CalculateIncRateFloat(option float64, incRate float64) float64 {
-	if incRate == 0 || option == 0 {
+	if incRate <= 0 || option <= 0 {
 		return 0
 	}
 	return option / incRate

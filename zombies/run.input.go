@@ -15,6 +15,10 @@ func (g *Game) GetInput() chan string {
 							inputChan <- "up"
 						case tcell.KeyDown:
 							inputChan <- "down"
+						case tcell.KeyRight:
+							inputChan <- "right"
+						case tcell.KeyLeft:
+							inputChan <- "left"
 						case tcell.KeyCtrlC:
 							inputChan <- "exit"
 						case tcell.KeyRune:
@@ -72,11 +76,19 @@ func (g *Game) Input(inputChan chan string) {
 			g.status.exitGame = true
 		case "up":
 			if g.IsRunning() {
-				g.MoveHero(-1)
+				g.MoveHero(Point{0, -1})
 			}
 		case "down":
 			if g.IsRunning() {
-				g.MoveHero(1)
+				g.MoveHero(Point{0, 1})
+			}
+		case "right":
+			if g.IsRunning() {
+				g.MoveHero(Point{1, 0})
+			}
+		case "left":
+			if g.IsRunning() {
+				g.MoveHero(Point{-1, 0})
 			}
 		case "pause":
 			g.status.paused = true
